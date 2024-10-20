@@ -1,12 +1,14 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const Section02 = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
+
   const text = "그 시절 우리는 모두 선택받은 아이들이었다.";
   const characters = text.split("");
 
@@ -21,6 +23,7 @@ const Section02 = () => {
   const circleRadius = useTransform(scrollYProgress, [0.3, 0.5], ["0%", "100%"]);
   const svgScale = useTransform(scrollYProgress, [0.3, 0.5], [0, 5]);
   const svgRotate = useTransform(scrollYProgress, [0.3, 0.5], [0, -720]);
+
   return (
     <>
       <div ref={containerRef} className="h-[400vh] relative">

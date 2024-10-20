@@ -1,45 +1,44 @@
-import React, { useRef, useState } from "react";
-import { useGsapScrollTrigger } from "../../../hook/useGsapScrollTrigger";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Section01 = () => {
-  const triggerRef = useRef(null);
-  const [currentImage, setCurrentImage] = useState(1);
-  const totalImages = 11;
-
-  useGsapScrollTrigger(
-    triggerRef,
-    "to",
-    {},
-    {
-      trigger: triggerRef.current,
-      start: "top top",
-      end: "50% bottom",
-      scrub: true,
-      // markers: true,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        const newImageNumber = Math.floor(progress * (totalImages - 1)) + 1;
-        if (newImageNumber !== currentImage) {
-          setCurrentImage(newImageNumber);
-        }
-      },
-    }
-  );
+  const containerRef = useRef(null);
+  const [currentImage, setCurrentImage] = useState(0); // 현재 이미지 번호
+  const totalImages = 12; // 총 이미지 갯수
 
   const { scrollYProgress } = useScroll({
-    target: triggerRef,
+    target: containerRef,
     offset: ["start start", "end start"],
   });
 
+  // 이미지 변경
+  const currentImageIndex = useTransform(scrollYProgress, [0, 0.3], [0, totalImages - 1]);
+
+  useEffect(() => {
+    const unsubscribe = currentImageIndex.on("change", (latest) => {
+      console.log(`스크롤 진행도: ${latest}`);
+      const newImageNumber = Math.floor(latest);
+      if (newImageNumber !== currentImage) {
+        setCurrentImage(newImageNumber);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [currentImageIndex, currentImage]);
+
+  //  DIV 변경
   const y1 = useTransform(scrollYProgress, [0.3, 0.35], ["100%", "0%"]);
   const y2 = useTransform(scrollYProgress, [0.35, 0.4], ["100%", "0%"]);
   const y3 = useTransform(scrollYProgress, [0.4, 0.45], ["100%", "0%"]);
   const y4 = useTransform(scrollYProgress, [0.45, 0.5], ["100%", "0%"]);
 
   return (
-    <section ref={triggerRef} className="w-full h-[400vh] relative bg-black text-white">
+    <section ref={containerRef} className="w-full h-[400vh] relative bg-black text-white">
       <div className="sticky top-0 h-screen flex items-center justify-center">
         <div
           style={{ backgroundImage: `url(/digivice.jpg)` }}

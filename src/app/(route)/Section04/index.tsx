@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
 
 const Section04 = () => {
-  const triggerRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
   const pathRef = useRef<SVGPolylineElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [pathLength, setPathLength] = useState(0);
 
   const { scrollYProgress } = useScroll({
-    target: triggerRef,
+    target: containerRef,
     offset: ["start end", "end start"],
   });
 
@@ -21,12 +21,12 @@ const Section04 = () => {
       const length = pathRef.current.getTotalLength();
       setPathLength(length);
       pathLengthMotionValue.set(length);
-      // console.log("Path length:", length);
+      console.log("Path length:", length);
     }
   }, [pathLengthMotionValue]);
 
   return (
-    <section ref={triggerRef} className="w-full h-[400vh] relative bg-blue-500">
+    <section ref={containerRef} className="w-full h-[400vh] relative bg-blue-500">
       <div className="sticky top-0 h-screen flex flex-col items-center justify-evenly">
         <div
           style={{ backgroundImage: `url(/logo.png)` }}

@@ -47,9 +47,7 @@ export const useGsapScrollTrigger = (
       const timeline = gsap.timeline({
         scrollTrigger: scrollTriggerConfig,
       });
-      (animationOptions as gsap.TimelineVars[]).forEach((step) =>
-        timeline.to(element, step)
-      );
+      (animationOptions as gsap.TimelineVars[]).forEach((step) => timeline.to(element, step));
       animation = timeline;
     }
 
