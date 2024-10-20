@@ -8,21 +8,26 @@ const Section03 = () => {
     offset: ["start start", "end end"],
   });
 
-  //   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"]);
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-100vw"]);
+
+  const rotations = [-7.5, 15, 2.5, 7.5, -5, 5]; // 회전 각도 배열
 
   return (
-    <div ref={containerRef} className="h-[400vh]">
+    <div ref={containerRef} className="h-[600vh] bg-blue-500">
       <div className="sticky top-0 h-screen overflow-hidden">
-        <motion.div className="flex h-full items-center" style={{ x }}>
-          <div className="h-[100vh] w-[400vw] flex-shrink-0">
-            <div className="w-full h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-start px-20">
-              <h2 className="text-white text-2xl md:text-6xl font-bold">
-                긴 섹션 내용이 여기에 들어갑니다. 스크롤하여 더 많은 내용을
-                확인하세요.
-              </h2>
-            </div>
-          </div>
+        <motion.div
+          className="h-[100vh] w-full flex flex-shrink-0 items-center justify-start px-20 space-x-40"
+          style={{ x }}
+        >
+          {Array.from({ length: 6 }).map((_, index) => (
+            <img
+              key={index}
+              src={`/po0${index + 1}.webp`}
+              alt={`Poster ${index + 1}`}
+              className="h-3/4 object-cover rounded-3xl shadow-2xl"
+              style={{ rotate: `${rotations[index]}deg` }}
+            />
+          ))}
         </motion.div>
       </div>
     </div>
