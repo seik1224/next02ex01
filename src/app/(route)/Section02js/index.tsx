@@ -17,6 +17,7 @@ const Section02 = () => {
     const updateScrollProgress = () => {
       if (containerRef.current) {
         const { top, height } = containerRef.current.getBoundingClientRect();
+        console.log(top, height);
         const windowHeight = window.innerHeight;
         const progress = Math.max(
           0,
