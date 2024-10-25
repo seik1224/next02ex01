@@ -12,16 +12,16 @@ const Section02 = () => {
   const text = "그 시절 우리는 모두 선택받은 아이들이었다.";
   const characters = text.split("");
 
-  const opacities = characters.map((_, index) =>
-    useTransform(
-      scrollYProgress,
-      [
-        0.6 + (index / characters.length) * 0.1,
-        0.6 + ((index + 1) / characters.length) * 0.1,
-      ],
-      [0, 1]
-    )
-  );
+  // const opacities = characters.map((_, index) =>
+  //   useTransform(
+  //     scrollYProgress,
+  //     [
+  //       0.6 + (index / characters.length) * 0.1,
+  //       0.6 + ((index + 1) / characters.length) * 0.1,
+  //     ],
+  //     [0, 1]
+  //   )
+  // );
 
   const circleRadius = useTransform(
     scrollYProgress,
@@ -40,9 +40,11 @@ const Section02 = () => {
               {characters.map((char, index) => (
                 <motion.span
                   key={index}
-                  style={{
-                    opacity: opacities[index],
-                  }}
+                  style={
+                    {
+                      // opacity: opacities[index],
+                    }
+                  }
                 >
                   {char}
                 </motion.span>
