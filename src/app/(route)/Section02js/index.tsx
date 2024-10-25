@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const Section02 = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -12,16 +13,24 @@ const Section02 = () => {
   const text = "그 시절 우리는 모두 선택받은 아이들이었다.";
   const characters = text.split("");
 
-  const opacities = characters.map((_, index) =>
-    useTransform(
-      scrollYProgress,
-      [
-        0.6 + (index / characters.length) * 0.1,
-        0.6 + ((index + 1) / characters.length) * 0.1,
-      ],
-      [0, 1]
-    )
-  );
+  useEffect(() => {
+    const updateScrollProgress = () => {
+      if (containerRef.current) {
+        const { top, height } = containerRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const progress = Math.max(
+          0,
+          Math.min(1, (windowHeight - top) / (windowHeight + height))
+        );
+        setScrollProgress(progress);
+      }
+    };
+
+    window.addEventListener("scroll", updateScrollProgress);
+    updateScrollProgress();
+
+    return () => window.removeEventListener("scroll", updateScrollProgress);
+  }, []);
 
   const circleRadius = useTransform(
     scrollYProgress,
@@ -38,14 +47,18 @@ const Section02 = () => {
           <div className="sticky w-full top-0 left-0 h-screen flex items-center justify-center">
             <p className="text-white text-sm md:text-2xl lg:text-4xl opacity-80">
               {characters.map((char, index) => (
-                <motion.span
+                <span
                   key={index}
                   style={{
-                    opacity: opacities[index],
+                    opacity:
+                      scrollProgress > 0.6 + (index / characters.length) * 0.1
+                        ? 1
+                        : 0,
+                    transition: "opacity 0.2s ease",
                   }}
                 >
                   {char}
-                </motion.span>
+                </span>
               ))}
             </p>
           </div>

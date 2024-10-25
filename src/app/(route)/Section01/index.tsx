@@ -17,7 +17,11 @@ const Section01 = () => {
   });
 
   // 이미지 변경
-  const currentImageIndex = useTransform(scrollYProgress, [0, 0.3], [0, totalImages - 1]);
+  const currentImageIndex = useTransform(
+    scrollYProgress,
+    [0, 0.3],
+    [0, totalImages - 1]
+  );
 
   useEffect(() => {
     const unsubscribe = currentImageIndex.on("change", (latest) => {
@@ -38,7 +42,10 @@ const Section01 = () => {
   const y4 = useTransform(scrollYProgress, [0.45, 0.5], ["100%", "0%"]);
 
   return (
-    <section ref={containerRef} className="w-full h-[400vh] relative bg-black text-white">
+    <section
+      ref={containerRef}
+      className="w-full h-[400vh] relative bg-black text-white"
+    >
       <div className="sticky top-0 h-screen flex items-center justify-center">
         <div
           style={{ backgroundImage: `url(/digivice.jpg)` }}
@@ -59,10 +66,22 @@ const Section01 = () => {
         </div>
       </div>
       <div className="sticky top-0 left-0 w-full h-full overflow-hidden">
-        <motion.div style={{ y: y1 }} className="absolute left-0 w-1/4 h-full bg-white"></motion.div>
-        <motion.div style={{ y: y2 }} className="absolute left-1/4 w-1/4 h-full bg-white"></motion.div>
-        <motion.div style={{ y: y3 }} className="absolute left-2/4 w-1/4 h-full bg-white"></motion.div>
-        <motion.div style={{ y: y4 }} className="absolute left-3/4 w-1/4 h-full bg-white"></motion.div>
+        <motion.div
+          style={{ y: y1 }}
+          className="absolute left-0 w-1/4 h-full bg-white"
+        ></motion.div>
+        <motion.div
+          style={{ y: y2 }}
+          className="absolute left-1/4 w-1/4 h-full bg-white"
+        ></motion.div>
+        <motion.div
+          style={{ y: y3 }}
+          className="absolute left-2/4 w-1/4 h-full bg-white"
+        ></motion.div>
+        <motion.div
+          style={{ y: y4 }}
+          className="absolute left-3/4 w-1/4 h-full bg-white"
+        ></motion.div>
       </div>
     </section>
   );
